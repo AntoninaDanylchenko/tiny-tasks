@@ -1,0 +1,32 @@
+<div class="d-flex flex-column p-3 h-100">
+  <h5 class="mb-4 text-center text-primary">TinyTasks</h5>
+
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item mb-1">
+      <a href="{% url 'todo:index' %}" class="nav-link text-dark {% if request.resolver_match.url_name == 'list' %}active{% endif %}">
+        📝 Tasks
+      </a>
+    </li>
+    <li class="nav-item mb-1">
+      <a href="#" class="nav-link text-dark">
+        🏷️ Tags
+      </a>
+    </li>
+    <li class="nav-item mb-1">
+      <a href="#" class="nav-link text-dark">
+        👩‍💻 About me
+      </a>
+    </li>
+  </ul>
+
+  <hr>
+
+  <div class="mt-auto">
+     <form action="{% url 'logout' %}" method="post" class="d-inline">
+       {% csrf_token %}
+       <button type="submit"  class="btn btn-outline-danger w-100">
+         <i class="fas fa-sign-out-alt"></i> Logout
+       </button>
+     </form>
+  </div>
+</div>
