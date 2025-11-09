@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 m-0">Tags</h1>
+    <a href="{% url 'todo:tag-create' %}" class="btn btn-primary btn-sm">+ Add Tag</a>
+  </div>
+  {% if tags %}
+    <ul class="list-group">
+      {% for tag in tags %}
+        <li class="list-group-item task-item">
+          <div class="d-flex justify-content-between align-items-start flex-wrap">
+            <div>
+              <div class="task-content mb-1">
+                {{ tag.name }}
+              </div>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="alert alert-light border mt-3">
+      There are no tags yet.
+    </div>
+  {% endif %}
+{% endblock %}

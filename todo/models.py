@@ -3,7 +3,15 @@ from django.db import models
 
 
 class Tag(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='tags'
+    )
     name = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        unique_together = ('user', 'name')
 
     def __str__(self):
         return self.name
