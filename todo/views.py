@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404, redirect
 from django.urls.base import reverse_lazy
 from django.views.generic import ListView
+from django.views.generic.base import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from todo.forms import TaskForm, TagForm
@@ -48,6 +50,16 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
 class TagListView(LoginRequiredMixin, ListView):
     model = Tag
     context_object_name = 'tags'
+
+
+class ToggleTaskStatusView(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        task = get_object_or_404(Task, pk=pk)
+        if task:
+            task.is_completed = not task.is_completed
+            task.save()
+
+        return redirect("todo:index")
 
 
 class TagCreateView(LoginRequiredMixin, CreateView):
