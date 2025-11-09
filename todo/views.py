@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls.base import reverse_lazy
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from todo.forms import TaskForm, TagForm
 from todo.models import Task, Tag
@@ -30,6 +30,21 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+    model = Task
+    success_url = reverse_lazy("todo:index")
+    form_class = TaskForm
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
+    model = Task
+    success_url = reverse_lazy("todo:index")
+
+
 class TagListView(LoginRequiredMixin, ListView):
     model = Tag
     context_object_name = 'tags'
@@ -43,3 +58,18 @@ class TagCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+class TagUpdateView(LoginRequiredMixin, UpdateView):
+    model = Tag
+    success_url = reverse_lazy("todo:tag-list")
+    form_class = TagForm
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class TagDeleteView(LoginRequiredMixin, DeleteView):
+    model = Tag
+    success_url = reverse_lazy("todo:tag-list")
